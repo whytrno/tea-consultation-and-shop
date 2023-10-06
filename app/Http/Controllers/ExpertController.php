@@ -17,6 +17,10 @@ class ExpertController extends Controller
     {
         $data = Expert::all();
 
+        foreach ($data as $d) {
+            $d->image = url('images/experts') . '/' . $d->image;
+        }
+
         return $this->successResponse($data, null, 200);
     }
 

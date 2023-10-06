@@ -18,6 +18,10 @@ class PesticideController extends Controller
     {
         $data = Pesticide::get();
 
+        foreach ($data as $d) {
+            $d->image = url('images/pesticides') . '/' . $d->image;
+        }
+
         return $this->successResponse($data, null, 200);
     }
 
@@ -48,7 +52,7 @@ class PesticideController extends Controller
 
         $image = $request->file('image');
         $image_name = time() . '.' . $image->extension();
-        $image->move(public_path('images'), $image_name);
+        $image->move(public_path('images/pesticides'), $image_name);
 
         $product = Pesticide::create([
             'name' => $request->name,

@@ -18,6 +18,10 @@ class PestController extends Controller
     {
         $data = Pest::get();
 
+        foreach ($data as $d) {
+            $d->image = url('images/pests') . '/' . $d->image;
+        }
+
         return $this->successResponse($data, null, 200);
     }
 
