@@ -18,6 +18,10 @@ class ProductController extends Controller
     {
         $data = Product::with('category')->get();
 
+        foreach ($data as $d) {
+            $d->image = url('images/products') . '/' . $d->image;
+        }
+
         return $this->successResponse($data, null, 200);
     }
 
