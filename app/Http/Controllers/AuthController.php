@@ -54,7 +54,10 @@ class AuthController extends Controller
                 [
                     'success' => true,
                     'message' => 'Login success',
-                    'data' => $token
+                    'data' => [
+                        'user' => $user,
+                        'token' => $token
+                    ]
                 ],
                 200
             )->withCookie('auth_token', $token, 60);
