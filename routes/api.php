@@ -47,6 +47,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('transactions', TransactionController::class)->except(['destroy']);
     Route::put('transactions/{id}/update-status', [TransactionController::class, 'updateStatus']);
     Route::post('transactions/{id}/update', [TransactionController::class, 'update']);
+    Route::get('statistic', [TransactionController::class, 'statistic']);
+    Route::get('all-statistic', [TransactionController::class, 'allStatistic']);
+    Route::get('statistic-by-year/{year}', [TransactionController::class, 'statisticByYear']);
 
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('change-password', [AuthController::class, 'changePassword']);

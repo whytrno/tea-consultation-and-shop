@@ -25,6 +25,98 @@ class TransactionController extends Controller
         return $this->successResponse($data, null, 200);
     }
 
+    public function allStatistic()
+    {
+        $data = Transaction::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, SUM(total) as total')
+            ->groupBy('year', 'month')
+            ->get();
+
+        $result = [];
+        foreach ($data as $row) {
+            $year = $row['year'];
+            $month = $row['month'];
+            $total = $row['total'];
+
+            if (!isset($result[$year])) {
+                $result[$year] = [
+                    'year' => $year,
+                    'month' => []
+                ];
+            }
+
+            $result[$year]['month'][] = [
+                'month' => $month,
+                'total' => $total
+            ];
+        }
+
+        $result = array_values($result);
+
+        return $this->successResponse($result, null, 200);
+    }
+
+    public function statisticByYear($year)
+    {
+        $data = Transaction::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, SUM(total) as total')
+            ->groupBy('year', 'month')
+            ->whereRaw('YEAR(created_at) = ?', [$year])
+            ->get();
+
+        $result = [];
+        foreach ($data as $row) {
+            $year = $row['year'];
+            $month = $row['month'];
+            $total = $row['total'];
+
+            if (!isset($result[$year])) {
+                $result[$year] = [
+                    'year' => $year,
+                    'month' => []
+                ];
+            }
+
+            $result[$year]['month'][] = [
+                'month' => $month,
+                'total' => $total
+            ];
+        }
+
+        $result = array_values($result);
+
+        return $this->successResponse($result, null, 200);
+    }
+
+    public function statistic()
+    {
+        $data = Transaction::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, SUM(total) as total')
+            ->groupBy('year', 'month')
+            ->whereRaw('YEAR(created_at) = ?', [date('Y')])
+            ->get();
+
+        $result = [];
+        foreach ($data as $row) {
+            $year = $row['year'];
+            $month = $row['month'];
+            $total = $row['total'];
+
+            if (!isset($result[$year])) {
+                $result[$year] = [
+                    'year' => $year,
+                    'month' => []
+                ];
+            }
+
+            $result[$year]['month'][] = [
+                'month' => $month,
+                'total' => $total
+            ];
+        }
+
+        $result = array_values($result);
+
+        return $this->successResponse($result, null, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
