@@ -7,12 +7,14 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ExpertController;
+use App\Http\Controllers\HarvestController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PestController;
 use App\Http\Controllers\PesticideController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SavedController;
+use App\Http\Controllers\TeaController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 
@@ -50,6 +52,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('statistic', [TransactionController::class, 'statistic']);
     Route::get('all-statistic', [TransactionController::class, 'allStatistic']);
     Route::get('statistic-by-year/{year}', [TransactionController::class, 'statisticByYear']);
+
+    Route::resource('tea', TeaController::class)->except(['update']);
+    Route::post('tea/{id}/update', [TeaController::class, 'update']);
+    Route::resource('harvest', HarvestController::class)->except(['update']);
+    Route::post('harvest/{id}/update', [HarvestController::class, 'update']);
 
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('change-password', [AuthController::class, 'changePassword']);
